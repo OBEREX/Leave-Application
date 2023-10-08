@@ -30,7 +30,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="logo-container">
-                            <img src="Images/company-logo.png" alt="Company Logo" class="logo-img">
+                            <img src="company-logo.png" alt="Company Logo" class="logo-img">
                         </div>
                         <h4 class="text-center">Leave Application</h4>
                     </div>
@@ -64,14 +64,19 @@
                                     <option value="compassionate_leave">Compassionate leave</option>
                                     <option value="annual_leave">Annual leave</option>
                                     <option value="others">Others</option>
+                                </select>
+                            </div>
+                            <div class="form-group custom-dropdown" id="other_leave_options">
+                                <label for="other_leave_option">Other Leave Type</label>
+                                <select id="other_leave_option" name="other_leave_option" class="form-control">
                                     <option value="parental_leave">Parental leave</option>
                                     <option value="sick_leave">Sick Leave</option>
                                     <option value="sabbatical_leave">Sabbatical leave</option>
                                 </select>
                             </div>
-                            <div class="form-group custom-dropdown" id="explanation">
-                                <label for="leave_explanation">Leave Explanation</label>
-                                <textarea id="leave_explanation" name="leave_explanation" class="form-control"></textarea>
+                            <div class="form-group">
+                                <label for="reason_for_leave">Reason for Leave</label>
+                                <textarea id="reason_for_leave" name="reason_for_leave" class="form-control"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
@@ -85,13 +90,32 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Show the custom explanation field when "Others" is selected
+        // Show the custom dropdown when "Others" is selected
         $(document).ready(function () {
             $('#leave_type').change(function () {
                 if ($(this).val() === 'others') {
-                    $('#explanation').show();
+                    $('#other_leave_options').show();
                 } else {
-                    $('#explanation').hide();
+                    $('#other_leave_options').hide();
+                }
+            });
+            
+            // Add date restrictions and formal alert messages
+            $('#leave_start_date, #leave_end_date').change(function () {
+                var today = new Date();
+                var waitDate = 7; // Adjust this to the employer's wait date in days
+                today.setDate(today.getDate() + waitDate); // Add waitDate days to today's date
+                var leaveStartDate = new Date($('#leave_start_date').val());
+                var leaveEndDate = new Date($('#leave_end_date').val());
+                
+                if (leaveStartDate >= leaveEndDate) {
+                    alert('Error: Leave start date should be earlier than the leave end date.');
+                    $('#leave_start_date').val('');
+                    $('#leave_end_date').val('');
+                } else if (leaveStartDate <= today || leaveEndDate <= today) {
+                    alert('Error: Leave start and end dates must be at least ' + waitDate + ' days from today.');
+                    $('#leave_start_date').val('');
+                    $('#leave_end_date').val('');
                 }
             });
         });
