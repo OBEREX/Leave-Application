@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application Form</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Your custom CSS -->
+    <!-- link rel="stylesheet" href="styles.css" -->
+    <style>
+        /* Additional Custom CSS */
+        .logo-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .logo-img {
+            max-width: 200px; /* Adjust the max-width as needed for your logo's aspect ratio */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="logo-container">
+                            <img src="Images/logo.png" alt="Company Logo" class="logo-img">
+                        </div>
+                        <h4 class="text-center">Employee Leave Application</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/submit_leave_request" method="POST">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="first_name">First Name</label>
+                                    <input type="text" id="first_name" name="first_name" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="last_name">Last Name</label>
+                                    <input type="text" id="last_name" name="last_name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="team">Team</label>
+                                <input type="text" id="team" name="team" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leave_start_date">Leave Start Date</label>
+                                <input type="date" id="leave_start_date" name="leave_start_date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leave_end_date">Leave End Date</label>
+                                <input type="date" id="leave_end_date" name="leave_end_date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leave_type">Leave Type</label>
+                                <select id="leave_type" name="leave_type" class="form-control" required>
+                                    <option value="vacation">Vacation</option>
+                                    <option value="sick">Sick Leave</option>
+                                    <option value="personal">Personal Leave</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="comments">Comments (optional)</label>
+                                <textarea id="comments" name="comments" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
