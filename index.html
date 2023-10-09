@@ -8,20 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Your custom CSS -->
     <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Additional Custom CSS */
-        .logo-container {
-            text-align: center;
-            padding: 20px;
-        }
-        .logo-img {
-            max-width: 200px; /* Adjust the max-width as needed for your logo's aspect ratio */
-            height: auto;
-        }
-        .custom-dropdown {
-            display: none; /* Initially hide the custom dropdown */
-        }
-    </style>
+    
 </head>
 <body>
     <div class="container mt-5">
@@ -89,38 +76,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // Show the custom dropdown when "Others" is selected
-        $(document).ready(function () {
-            $('#leave_type').change(function () {
-                if ($(this).val() === 'others') {
-                    $('#other_leave_options').show();
-                } else {
-                    $('#other_leave_options').hide();
-                }
-            });
-            
-            // Add date restrictions and formal alert messages upon form submission
-            $('#leave-form').submit(function (event) {
-                var today = new Date();
-                var waitDate = 7; // Adjust this to the employer's wait date in days
-                today.setDate(today.getDate() + waitDate); // Add waitDate days to today's date
-                var leaveStartDate = new Date($('#leave_start_date').val());
-                var leaveEndDate = new Date($('#leave_end_date').val());
-                
-                if (leaveStartDate >= leaveEndDate) {
-                    alert('Error: Leave start date should be earlier than the leave end date.');
-                    $('#leave_start_date').val('');
-                    $('#leave_end_date').val('');
-                    event.preventDefault(); // Prevent form submission
-                } else if (leaveStartDate <= today || leaveEndDate <= today) {
-                    alert('Error: Leave start and end dates must be at least ' + waitDate + ' days from today.');
-                    $('#leave_start_date').val('');
-                    $('#leave_end_date').val('');
-                    event.preventDefault(); // Prevent form submission
-                }
-            });
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
