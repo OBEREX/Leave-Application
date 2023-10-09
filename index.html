@@ -30,12 +30,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="logo-container">
-                            <img src="company-logo.png" alt="Company Logo" class="logo-img">
+                            <img src="Images/company-logo.png" alt="Company Logo" class="logo-img">
                         </div>
-                        <h4 class="text-center">Leave Application</h4>
+                        <h4 class="text-center">Employee Leave Application</h4>
                     </div>
                     <div class="card-body">
-                        <form action="/submit_leave_request" method="POST">
+                        <form action="/submit_leave_request" method="POST" id="leave-form">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="first_name">First Name</label>
@@ -100,8 +100,8 @@
                 }
             });
             
-            // Add date restrictions and formal alert messages
-            $('#leave_start_date, #leave_end_date').change(function () {
+            // Add date restrictions and formal alert messages upon form submission
+            $('#leave-form').submit(function (event) {
                 var today = new Date();
                 var waitDate = 7; // Adjust this to the employer's wait date in days
                 today.setDate(today.getDate() + waitDate); // Add waitDate days to today's date
@@ -112,10 +112,12 @@
                     alert('Error: Leave start date should be earlier than the leave end date.');
                     $('#leave_start_date').val('');
                     $('#leave_end_date').val('');
+                    event.preventDefault(); // Prevent form submission
                 } else if (leaveStartDate <= today || leaveEndDate <= today) {
                     alert('Error: Leave start and end dates must be at least ' + waitDate + ' days from today.');
                     $('#leave_start_date').val('');
                     $('#leave_end_date').val('');
+                    event.preventDefault(); // Prevent form submission
                 }
             });
         });
