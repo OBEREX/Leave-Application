@@ -28,7 +28,15 @@ class LeaveRequest(BaseModel):
     leave_start_date: str
     leave_end_date: str
     leave_type: str
+    other_leave_option: str
     reason_for_leave: str
+
+class LastRequestedLeaveModel(BaseModel):
+    EmployeeId: str
+    LeaveId: str
+    Year: int
+    AnnualLeaveLeft: int
+    LeaveTakenInAYear: int
 
 
 # Serve the static files from the 'frontend' directory
@@ -42,37 +50,57 @@ async def read_root():
 
 @app.post("/submit_leave_request/")
 async def submit_leave_request(request: LeaveRequest):
-    # Ensure that you have created the EmployeeDetails and LeaveRequestLog tables in your database
-    query = """
-    INSERT INTO EmployeeDetails (FirstName, LastName, Email, Team)
-    VALUES (%s, %s, %s, %s)
-    """
-    values = (request.first_name, request.last_name, request.email, request.team)
+     # Check if a record with the same email already exists
+    query = "SELECT EmployeeId FROM EmployeeDetails WHERE Email = %s"
+    email_check_values = (request.email,)
+    db_cursor.execute(query, email_check_values)
+    existing_employee = db_cursor.fetchone()
 
-    db_cursor.execute(query, values)
-    db_connection.commit()
+    if existing_employee:
+        # A record with the same email exists, use the existing EmployeeId
+        employee_id = existing_employee[0]
+    else:
+        # Insert a new record if no existing record found
+        insert_query = """
+        INSERT INTO EmployeeDetails (FirstName, LastName, Email, Team)
+        VALUES (%s, %s, %s, %s)
+        """
+        insert_values = (request.first_name, request.last_name, request.email, request.team)
 
-    # Get the EmployeeId of the newly inserted record
-    employee_id = db_cursor.lastrowid
+        db_cursor.execute(insert_query, insert_values)
+        db_connection.commit()
+
+        # Get the EmployeeId of the newly inserted record
+        employee_id = db_cursor.lastrowid
 
     query = """
     INSERT INTO LeaveRequestLog (EmployeeId, Year, TimeLeaveRequestSent, LeaveStartDate, LeaveReturnDate, LeaveType, ReasonForLeave)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
-    values = (
-        employee_id,
-        datetime.now().year,
-        datetime.now(),
-        request.leave_start_date,
-        request.leave_end_date,
-        request.leave_type,
-        request.reason_for_leave,
-    )
-
+    if request.leave_type == "Others":
+        values = (
+            employee_id,
+            datetime.now().year,
+            datetime.now(),
+            request.leave_start_date,
+            request.leave_end_date,
+            request.other_leave_option,
+            request.reason_for_leave,
+        )
+    else :
+        values = (
+            employee_id,
+            datetime.now().year,
+            datetime.now(),
+            request.leave_start_date,
+            request.leave_end_date,
+            request.leave_type,
+            request.reason_for_leave,
+        )
     db_cursor.execute(query, values)
     db_connection.commit()
     return {"message": "Leave request submitted successfully"}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

@@ -29,3 +29,24 @@
         }
     });
 });
+const form = document.getElementById("leave-form");
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    const response = await fetch("/submit_leave_request", {
+        method: "POST",
+        body: JSON.stringify(formDataObject), // Convert form data to JSON
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    // Handle the response as needed
+});
