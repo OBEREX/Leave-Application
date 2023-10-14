@@ -48,13 +48,15 @@ async def read_root():
     html_path = os.path.join("frontend", "index.html")  # Replace with the actual path to your HTML file
     return FileResponse(html_path)
 
-@app.post("/submit_leave_request/")
+@app.post("/submit_leave_request")
 async def submit_leave_request(request: LeaveRequest):
      # Check if a record with the same email already exists
     query = "SELECT EmployeeId FROM EmployeeDetails WHERE Email = %s"
     email_check_values = (request.email,)
     db_cursor.execute(query, email_check_values)
     existing_employee = db_cursor.fetchone()
+
+    print(request.leave_type,request.other_leave_option)
 
     if existing_employee:
         # A record with the same email exists, use the existing EmployeeId
@@ -72,7 +74,7 @@ async def submit_leave_request(request: LeaveRequest):
 
         # Get the EmployeeId of the newly inserted record
         employee_id = db_cursor.lastrowid
-
+    
     query = """
     INSERT INTO LeaveRequestLog (EmployeeId, Year, TimeLeaveRequestSent, LeaveStartDate, LeaveReturnDate, LeaveType, ReasonForLeave)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -100,6 +102,10 @@ async def submit_leave_request(request: LeaveRequest):
     db_cursor.execute(query, values)
     db_connection.commit()
     return {"message": "Leave request submitted successfully"}
+
+@app.get("/success_page.html", response_class=FileResponse)
+async def get_success_page():
+    return "static/success_page.html"  # Update with the correct path to your HTML file
 
 if __name__ == "__main__":
     import uvicorn

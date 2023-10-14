@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request Submitted</title>
+    <!-- Include any necessary CSS styles for the success page -->
+</head>
+<body>
+    <div class="container">
+        <h1>Leave Request Submitted Successfully</h1>
+        <p>Thank you for submitting your leave request. You will be redirected to the homepage shortly.</p>
+        <!-- You can add a JavaScript redirection script here if needed -->
+    </div>
+    <!-- Include this JavaScript script at the end of your "success_page.html" file -->
+    <script>
+        setTimeout(function () {
+            window.location.href = "static/welcome_page.html";  // Redirect to the homepage
+        }, 3000);  // Adjust the delay (in milliseconds) as needed
+    </script>
+</body>
+</html>

@@ -49,4 +49,14 @@ form.addEventListener("submit", async (event) => {
     });
 
     // Handle the response as needed
+
+    // After successfully processing the form submission
+    // Redirect to the success page
+    console.log(response)
+    if (response.ok) {
+        // Redirect to the success_page.html route
+        window.location.href = "/success_page.html";
+    } else {
+        // Handle the response in case of an error (optional)
+    }
 });

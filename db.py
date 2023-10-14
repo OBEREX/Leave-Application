@@ -40,7 +40,7 @@ db_connection = mysql.connector.connect(
 try:
     create_employee_details_table = """
     CREATE TABLE IF NOT EXISTS EmployeeDetails (
-        EmployeeId VARCHAR(20) PRIMARY KEY, -- In the format "[team]-[4-digit sequential number]"
+        EmployeeId VARCHAR(40) PRIMARY KEY, -- In the format "[team]-[4-digit sequential number]"
         FirstName VARCHAR(50),
         LastName VARCHAR(50),
         Email VARCHAR(100),
@@ -69,8 +69,8 @@ except Error as e:
 try:
     create_leave_request_log_table = """
     CREATE TABLE IF NOT EXISTS LeaveRequestLog (
-        LeaveId VARCHAR(20) PRIMARY KEY, -- In the format "[leave type]-[4-digit sequential number]"
-        EmployeeId VARCHAR(20),
+        LeaveId VARCHAR(40) PRIMARY KEY, -- In the format "[leave type]-[4-digit sequential number]"
+        EmployeeId VARCHAR(40),
         Year INT,
         TimeLeaveRequestSent TIMESTAMP,
         LeaveStartDate DATE,
