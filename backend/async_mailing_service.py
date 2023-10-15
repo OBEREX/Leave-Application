@@ -6,7 +6,7 @@ from email.mime.image import MIMEImage
 
 async def send_async_email(subject, body, requesters_email):
     sender_email = 'ali.balogun@escapetech.net'
-    sender_password = 'Balogun996@'
+    sender_password = ''
     receiver_email = 'alibalogun996@gmail.com'
     cc_email = 'olaoluwa@escapetech.net'
     smtp_server = 'mail.escapetech.net'
