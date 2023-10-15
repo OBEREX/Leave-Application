@@ -14,7 +14,7 @@ app = FastAPI()
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "Balgun996@",
+    "password": "",
     "database": "leave_request_app",
 }
 
