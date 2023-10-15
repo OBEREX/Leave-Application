@@ -32,7 +32,7 @@ except Error as e:
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Balgun996@",
+    password="",
     database="leave_request_app"
 )
 
