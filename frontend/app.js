@@ -1,5 +1,5 @@
- // Show the custom dropdown when "Others" is selected
- $(document).ready(function () {
+$(document).ready(function () {
+    // Show the custom dropdown when "Others" is selected
     $('#leave_type').change(function () {
         if ($(this).val() === 'others') {
             $('#other_leave_options').show();
@@ -21,42 +21,43 @@
             $('#leave_start_date').val('');
             $('#leave_end_date').val('');
             event.preventDefault(); // Prevent form submission
+            return false; // Add this line to cancel the form submission
         } else if (leaveStartDate <= today || leaveEndDate <= today) {
             alert('Error: Leave start and end dates must be at least ' + waitDate + ' days from today.');
             $('#leave_start_date').val('');
             $('#leave_end_date').val('');
             event.preventDefault(); // Prevent form submission
+            return false; // Add this line to cancel the form submission
         }
     });
-});
-const form = document.getElementById("leave-form");
 
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+    const form = document.getElementById("leave-form");
 
-    const formData = new FormData(form);
-    const formDataObject = {};
-    formData.forEach((value, key) => {
-        formDataObject[key] = value;
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Send a POST request with the form data
+        const response = await fetch("/submit_leave_request", {
+            method: "POST",
+            body: JSON.stringify(formDataObject), // Convert form data to JSON
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            console.log(data.url)
+            if (data.url)
+                window.location.replace(data.url); // or, location.replace(data.url);
+            else
+            document.getElementById("response").innerHTML = data;
+        })
+
     });
-
-    const response = await fetch("/submit_leave_request", {
-        method: "POST",
-        body: JSON.stringify(formDataObject), // Convert form data to JSON
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
-    // Handle the response as needed
-
-    // After successfully processing the form submission
-    // Redirect to the success page
-    console.log(response)
-    if (response.ok) {
-        // Redirect to the success_page.html route
-        window.location.href = "/success_page.html";
-    } else {
-        // Handle the response in case of an error (optional)
-    }
 });
