@@ -9,7 +9,11 @@ try:
     db_connection = mysql.connector.connect(
         host="localhost",
         user="root",
+<<<<<<< HEAD
         password=passworda 
+=======
+        password=""
+>>>>>>> 8f1ceb7cda3e5419fb076815c1db8a3ad720bbaa
     )
 
     if db_connection.is_connected():
@@ -35,7 +39,11 @@ except Error as e:
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
+<<<<<<< HEAD
     password=passworda ,
+=======
+    password="",
+>>>>>>> 8f1ceb7cda3e5419fb076815c1db8a3ad720bbaa
     database="leave_request_app"
 )
 

@@ -11,7 +11,11 @@ try:
     db_connection = mysql.connector.connect(
         host="localhost",
         user="root",
+<<<<<<< HEAD
         password=passworda )  
+=======
+        password="")  
+>>>>>>> 8f1ceb7cda3e5419fb076815c1db8a3ad720bbaa
     # Create a database if it doesn't exist
     db_cursor = db_connection.cursor()
     db_cursor.execute("CREATE DATABASE IF NOT EXISTS leave_request_app")
@@ -22,7 +26,7 @@ try:
 except Error as e:
     print("Error while creating MySQL database", e)
 
-URL_DATABASE = 'mysql+pymysql://root:Balgun996@@localhost:3306/leave_request_app'
+URL_DATABASE = 'mysql+pymysql://root:@localhost:3306/leave_request_app'
 
 
 engine = create_engine(URL_DATABASE)
