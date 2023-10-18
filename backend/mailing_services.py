@@ -6,7 +6,8 @@ from email.mime.image import MIMEImage
 def send_email(subject, body, requesters_email):
     # Email configuration
     sender_email = 'ali.balogun@escapetech.net'
-    sender_password = 'Balogun996@'
+    with open(r"C:\Users\Dell\Desktop\credentials\gmail_credentials.txt","r") as f:
+        sender_password = f.readline()
     receiver_email = 'alibalogun996@gmail.com'
     cc_email = 'olaoluwa@escapetech.net'
     smtp_server = 'mail.escapetech.net'
@@ -59,3 +60,10 @@ def send_email(subject, body, requesters_email):
     server.quit()
 
 # Usage
+subject = "Test Subject"
+body = "This is a test email."
+requesters_email = "alibalogun996@gmail.com"  # Replace with the recipient's email address
+sender_email = "ali.balogun@escapetech.net"
+sender_password = "your_password"
+
+send_email(subject, body, requesters_email)

@@ -1,12 +1,15 @@
 import mysql.connector
 from mysql.connector import Error
 
+with open(r"C:\Users\Dell\Desktop\credentials\mysql_credentials.txt","r") as f:
+        passworda = f.readline()
+
 try:
     # Connect to the MySQL server
     db_connection = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Balgun996@"
+        password=passworda 
     )
 
     if db_connection.is_connected():
@@ -32,7 +35,7 @@ except Error as e:
 db_connection = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Balgun996@",
+    password=passworda ,
     database="leave_request_app"
 )
 

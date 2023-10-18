@@ -1,23 +1,25 @@
 import aiohttp
 import asyncio
+import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
-async def send_async_email(subject, body, requesters_email):
+async def send_async_email(subject : str, body : str, recipient : str):
+
     sender_email = 'ali.balogun@escapetech.net'
-    sender_password = 'Balogun996@'
-    receiver_email = 'alibalogun996@gmail.com'
-    cc_email = 'olaoluwa@escapetech.net'
-    smtp_server = 'mail.escapetech.net'
+    with open(r"C:\Users\Dell\Desktop\credentials\gmail_credentials.txt","r") as f:
+        sender_password = f.readline()
+    recipients = 'olaoluwa@escapetech.net '
+    recipients+=recipient
+
+    smtp_server = "mail.escapetech.net"
     smtp_port = 465
 
     # Create the email message
     message = MIMEMultipart()
     message['From'] = sender_email
-    message['To'] = receiver_email
-    message['Cc'] = cc_email
-    message['Bcc'] = requesters_email
+    message['To'] = ', '.join(recipients)  # Multiple recipients should be comma-separated
     message['Subject'] = subject
 
     # Define the email signature text
@@ -52,10 +54,11 @@ async def send_async_email(subject, body, requesters_email):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.post(
-                f"https://{smtp_server}:{smtp_port}",
+                f"smtp://{smtp_server}:{smtp_port}",
                 auth=aiohttp.BasicAuth(sender_email, sender_password),
                 data=message_content,
-                headers={'Content-Type': 'text/plain'}
+                headers={'Content-Type': 'text/plain'},
+                
             ) as response:
                 if response.status == 200:
                     print("Email sent successfully")
@@ -67,10 +70,11 @@ async def send_async_email(subject, body, requesters_email):
 async def main():
     subject = "Test Subject"
     body = "This is a test email."
-    recipients = ["recipient@example.com"]
-    requesters_email = "yourrequester@example.com"
+    recipients = "alibalogun996@gmail.com"  # Replace with the recipient's email address
+    sender_email = "ali.balogun@escapetech.net"
+    sender_password = "your_password"
 
-    await send_async_email(subject, body, requesters_email)
+    await send_async_email(subject, body, recipients)
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

@@ -1,22 +1,26 @@
-from fastapi import FastAPI, HTTPException, Depends, status
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
 ## import models
 from pydantic import BaseModel
 import mysql.connector
 from datetime import datetime
-from async_mailing_service import send_async_email 
+from async_mailing_service import send_async_email
+
+
 app = FastAPI()
-## models.Base.metadata.create_all(bind=engine)
+
 
 # Replace these with your database credentials
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "Balgun996@",
+    "password": "",
     "database": "leave_request_app",
 }
+with open(r"C:\Users\Dell\Desktop\credentials\mysql_credentials.txt","r") as f:
+        db_config["password"] = f.readline()
 
 # Create a MySQL connection
 db_connection = mysql.connector.connect(**db_config)
@@ -40,10 +44,13 @@ app.mount("/static", StaticFiles(directory="frontend"), name="static")
 # Define a route to serve the HTML form
 @app.get("/")
 def read_root():
-    html_path = os.path.join("frontend", "index.html")  # Replace with the actual path to your HTML file
+    html_path = os.path.join("frontend", "welcome_page.html")  # Replace with the actual path to your HTML file
     return FileResponse(html_path)
 
-
+@app.get("/form_page")
+def get_form_page():
+    html_path = os.path.join("frontend", "index.html")  # Update with the correct path to your HTML file
+    return FileResponse(html_path)
 
 # Function to check if an employee with the given email exists and return the employee ID
 def get_or_create_employee(request: LeaveRequest):
@@ -123,7 +130,7 @@ async def submit_leave_request(request: LeaveRequest):
         and would be gone from {request.leave_start_date} to {request.leave_end_date} for the reason given as
         {request.reason_for_leave}
     '''
-    await send_async_email(subject=subject,body=body,requesters_email=request.email)
+    await send_async_email(subject=subject, body=body, recipient=request.email)
     print("sucesssfull")
     # Redirect to the success page
     return {'url': '/success_page'}
