@@ -1,10 +1,12 @@
+import asyncio
 import smtplib
-
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
-def send_email(last_name, first_name, email, leave_start_date, leave_end_date, reason_for_leave, leave_type):
+async def send_email(
+    last_name, first_name, email, leave_start_date, leave_end_date, reason_for_leave, leave_type
+):
     # Email configuration
     sender_email = 'applicationleave8@gmail.com'
     sender_password = 'dlepqqcaqiauzzjo'  # Replace with your Gmail App Password
@@ -24,8 +26,8 @@ def send_email(last_name, first_name, email, leave_start_date, leave_end_date, r
     # Your HTML template with the <img> tag
     html_template = """
     <p>Good Day,</p>
-    <p>I would like to inform you that {first_name} would like to request for a {leave_type}.</p>
-    <p>And would be gone from {leave_start_date} to {leave_end_date} for the reason given as {reason_for_leave}</p>
+    <p>I would like to inform you that {first_name} would like to request for a {leave_type} leave</p>
+    <p>and would be gone from {leave_start_date} to {leave_end_date} for the reason given as {reason_for_leave}</p>
     <p>Best regards,</p>
     <p>HR Officer</p>
     <p><img src="cid:signature.png" alt="Image Description" width="108" height="60" style="width: 1.125in; height: .625in"></p>
@@ -52,16 +54,21 @@ def send_email(last_name, first_name, email, leave_start_date, leave_end_date, r
 
     message.attach(html_message)
 
-
-    # Connect to the SMTP server
+    # Connect to the SMTP server asynchronously
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.starttls()
     server.login(sender_email, sender_password)
 
-    # Send the email
-    server.sendmail(sender_email, to_email, message.as_string())
+    # Send the email asynchronously
+    await server.sendmail(sender_email, to_email, message.as_string())
 
     # Close the server
     server.quit()
 
+# Example usage within an async function
+async def main():
+    await send_email("Doe", "John", "johndoe@gmail.com", "2023-10-25", "2023-10-30", "Vacation", "Annual Leave")
 
+# Run the main async function
+if __name__ == "__main__":
+    asyncio.run(main())

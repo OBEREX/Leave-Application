@@ -1,0 +1,34 @@
+     /* Additional Custom CSS */
+     .logo-container {
+        text-align: center;
+        padding: 45px 0px;
+        background: linear-gradient(50deg, rgb(81, 255, 182), rgb(87, 160, 255));
+        
+    }
+    .logo-img {
+        max-width: 200px; /* Adjust the max-width as needed for your logo's aspect ratio */
+        height: auto;
+    }
+    .custom-dropdown {
+        display: none; /* Initially hide the custom dropdown */
+    }
+    .main_header{
+        text-align: center;
+    }
+
+    .header{
+        background: linear-gradient(50deg, rgb(81, 255, 182), rgb(87, 160, 255));
+        padding: 45px 0px;
+    }
+    
+    .Logo_Title{
+        margin-top: -5px;
+        color: rgb(138, 185, 57);
+    }
+
+    .Link{
+        font-size: 17px;
+        text-decoration: none;
+        color: rgb(138, 185, 57);
+        font-weight:bold;
+    }

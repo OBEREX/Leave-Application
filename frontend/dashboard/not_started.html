@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Admin Page</title>
+	<link rel="stylesheet" href="/static/dashboard/styles.css">
+	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+	<script>
+		$(document).ready(function(){
+			$(".hamburger .hamburger__inner").click(function(){
+			  $(".wrapper").toggleClass("active")
+			})
+
+			$(".top_navbar .fas").click(function(){
+			   $(".profile_dd").toggleClass("active");
+			});
+		})
+	</script>
+  <style>
+    table {
+        border-collapse: collapse; /* Remove default table borders */
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Add white background to even rows */
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="top_navbar">
+    <div class="hamburger">
+       <div class="hamburger__inner">
+         <div class="one"></div>
+         <div class="two"></div>
+         <div class="three"></div>
+       </div>
+    </div>
+    <div class="menu">
+      <div class="logo">
+        Leave Application Admin
+      </div>
+      <div class="right_menu">
+        <ul>
+          <li><i class="fas fa-user"></i>
+            <div class="profile_dd">
+               <div class="dd_item">Profile</div>
+               <div class="dd_item">Change Password</div>
+               <div class="dd_item">Logout</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    
+  <div class="main_container">
+      <div class="sidebar">
+          <div class="sidebar__inner">
+            <div class="profile">
+              <div class="img">
+                <img src="/static/Images/Untitled.png" alt="profile_pic">
+              </div>
+              <div class="profile_info">
+                 <p>Welcome</p>
+                 <p class="profile_name">Admin</p>
+              </div>
+            </div>
+            <ul>
+              <li>
+                <a href="/fetch-pending-requests" >
+                  <span class="icon"><i class="fas fa-clock-four"></i></span>
+                  <span class="title">Pending</span>
+                </a>
+              </li>
+              <li>
+                <a href="/fetch-ongoing-requests">
+                  <span class="icon"><i class="fas fa-bars-progress"></i></span>
+                  <span class="title">Ongoing</span>
+                </a>
+              </li>
+              <li>
+                <a href="/fetch-not_started-requests" class="active">
+                  <span class="icon"><i class="fab fa-elementor"></i></span>
+                  <span class="title">Not Started</span>
+                </a>
+              </li>
+              <li>
+                <a href="/fetch-all-requests">
+                  <span class="icon"><i class="fas fa-chart-pie"></i></span>
+                  <span class="title">All Request</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+      </div>
+      <div class="container">
+        <div class="item">
+          <h1>Not Started Leave Requests</h1>
+          <table>
+              <tr>
+                  <th>Employee Name</th>
+                  <th>Leave Type</th>
+                  <th>Leave Dates</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+              </tr>
+              {% for request in not_started_requests %}
+              <tr>
+                <td>{{ request.last_name }} &nbsp; {{ request.first_name }}</td>
+                <td>{{ request.leave_type }}</td>
+                <td>{{ request.leave_start_date }} to {{ request.leave_end_date }}</td>
+                <td>{{ request.reason_for_leave }}</td>
+                <td>
+                  {{ request.status }}
+                </td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+      </div>
+  </div>
+  
+</div>	
+
+</body>
+</html>
